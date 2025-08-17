@@ -13,7 +13,7 @@ Develop and evaluate a federated learning system that trains a predictive model 
 ## 📂 Project Structure
 
 ```text
-PHD_FEDERATED_LEARNING_PROJECT/
+FEDERATED_LEARNING_30-Day_Readmission/
 │
 ├── data/                   # Raw synthetic EHR data from Synthea (Git ignored)
 │   ├── hospital_A/
