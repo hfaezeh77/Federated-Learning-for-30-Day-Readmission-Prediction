@@ -1,0 +1,13 @@
+# Python virtual environment
+venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Data - Never commit large data files to Git
+data/
+processed_data/
+
+# macOS system files
+.DS_Store
