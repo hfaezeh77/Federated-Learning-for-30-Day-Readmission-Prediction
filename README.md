@@ -13,7 +13,7 @@ Develop and evaluate a federated learning system that trains a predictive model 
 ## 📂 Project Structure
 
 ```text
-FEDERATED_LEARNING_30-Day_Readmission/
+Federated-Learning-for-30-Day-Readmission-Prediction/
 │
 ├── data/                   # Raw synthetic EHR data from Synthea (Git ignored)
 │   ├── hospital_A/
@@ -36,8 +36,7 @@ FEDERATED_LEARNING_30-Day_Readmission/
 ├── venv/                   # Python virtual environment (Git ignored)
 │
 ├── .gitignore              # Git ignore rules
-├── README.md               # This documentation file
-└── requirements.txt        # Python dependencies
+└──  README.md               # This documentation file
 ```
 # Federated Readmission Prediction — README
 
@@ -47,8 +46,8 @@ Follow these steps to set up the project environment.
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repository-url>
-   cd PHD_FEDERATED_LEARNING_PROJECT
+   git clone https://github.com/hfaezeh77/Federated-Learning-for-30-Day-Readmission-Prediction.git
+   cd Federated-Learning-for-30-Day-Readmission-Prediction
    ```
 
 2. **Create and activate a virtual environment**  
@@ -62,12 +61,6 @@ Follow these steps to set up the project environment.
 
    # (Windows PowerShell)
    # .\venv\Scripts\Activate.ps1
-   ```
-
-3. **Install dependencies**  
-   Install all required Python libraries from `requirements.txt`.
-   ```bash
-   pip install -r requirements.txt
    ```
 
 ---
