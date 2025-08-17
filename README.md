@@ -39,22 +39,121 @@ PHD_FEDERATED_LEARNING_PROJECT/
 ├── README.md               # This documentation file
 └── requirements.txt        # Python dependencies
 ```
-🛠️ Setup and InstallationFollow these steps to set up the project environment.1. Clone the Repositorygit clone [your-repository-url]
-cd PHD_FEDERATED_LEARNING_PROJECT
-2. Create and Activate Virtual EnvironmentIt is highly recommended to use a virtual environment to manage dependencies.# Create the virtual environment
-python3 -m venv venv
+# Federated Readmission Prediction — README
 
-# Activate the environment
+## 🛠️ Setup and Installation
+
+Follow these steps to set up the project environment.
+
+1. **Clone the repository**
+   ```bash
+   git clone <your-repository-url>
+   cd PHD_FEDERATED_LEARNING_PROJECT
+   ```
+
+2. **Create and activate a virtual environment**  
+   It is highly recommended to use a virtual environment to manage dependencies.
+   ```bash
+   # Create the virtual environment
+   python3 -m venv venv
+
+   # Activate the environment (macOS/Linux)
+   source venv/bin/activate
+
+   # (Windows PowerShell)
+   # .\venv\Scripts\Activate.ps1
+   ```
+
+3. **Install dependencies**  
+   Install all required Python libraries from `requirements.txt`.
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+---
+
+## ⚙️ How to Run the Simulation
+
+The simulation is a multi-step process.
+
+### Step 1: (If needed) Generate raw data
+Raw synthetic patient data is generated using **Synthea™**. The process is detailed in the notebook:
+
+- `notebooks/01-Data-Preprocessing.ipynb`
+
+If you already have data in the `/data` directory, you can skip this step.
+
+### Step 2: (Run once) Prepare federated data
+This one-time step preprocesses the raw data, creates model-ready datasets, and computes a global scaler in a privacy-preserving way.
+
+```bash
+python notebooks/02-Federated-Learning-Script.py --mode prepare
+```
+
+This will create files in the `/processed_data` directory.
+
+### Step 3: Run the federated learning simulation
+Open **four separate terminals**. In **each** terminal, activate the virtual environment:
+
+```bash
 source venv/bin/activate
-3. Install DependenciesInstall all the required Python libraries from the requirements.txt file.pip install -r requirements.txt
-⚙️ How to Run the SimulationThe simulation is a multi-step process.Step 1: (If Needed) Generate Raw DataThe raw synthetic patient data is generated using Synthea™. The process for this is detailed in the notebooks/01-Data-Preprocessing.ipynb Jupyter Notebook. If you have already generated the data in the /data directory, you can skip this step.Step 2: (Run Once) Prepare Federated DataThis crucial one-time step preprocesses the raw data, creates the model-ready datasets, and computes the global scaler in a privacy-preserving way.python notebooks/02-Federated-Learning-Script.py --mode prepare
-This will create the files in the /processed_data directory.Step 3: Run the Federated Learning SimulationTo run the simulation, you need to open four separate terminals. Make sure you activate the virtual environment (source venv/bin/activate) in each one.In Terminal 1 - Start the Server:The server orchestrates the training and waits for clients to connect.python notebooks/02-Federated-Learning-Script.py --mode server
-In Terminals 2, 3, and 4 - Start the Clients:Start one client for each hospital. They will connect to the running server.# Terminal 2
+# (Windows) .\venv\Scripts\Activate.ps1
+```
+
+**Terminal 1 — Start the server**
+```bash
+python notebooks/02-Federated-Learning-Script.py --mode server
+```
+
+**Terminal 2 — Start Client A**
+```bash
 python notebooks/02-Federated-Learning-Script.py --mode client --hospital_id A
+```
 
-# Terminal 3
+**Terminal 3 — Start Client B**
+```bash
 python notebooks/02-Federated-Learning-Script.py --mode client --hospital_id B
+```
 
-# Terminal 4
+**Terminal 4 — Start Client C**
+```bash
 python notebooks/02-Federated-Learning-Script.py --mode client --hospital_id C
-📊 Experimental ResultsThis section documents the results from the different experimental runs.1. Baseline: Federated Averaging (FedAvg)Description: Standard federated learning baseline.Command: python ... --mode client --hospital_id [A,B,C]Final AUC: 0.785Final Loss: 0.214Notes: The model successfully learned to predict readmissions, establishing a strong performance benchmark.2. Heterogeneity-Robust: FedProxDescription: An advanced algorithm designed to handle data heterogeneity between clients.Command: python ... --mode client --hospital_id [A,B,C] --algo fedproxFinal AUC: 0.807Final Loss: 0.193Notes: FedProx showed a slight improvement over the baseline, suggesting it effectively manages the statistical differences between the hospitals' datasets.3. Privacy-Preserving: FedAvg with Differential Privacy (DP)Description: The baseline model with client-side differential privacy enabled.Command: python ... --mode client --hospital_id [A,B,C] --use_dpFinal AUC: 0.788Final Loss: 0.212Notes: The addition of DP resulted in a minor decrease in performance, quantifying the "cost of privacy." The model remains highly effective while providing formal privacy guarantees.
+```
+
+> **Note:** If you use a newer Flower version, you may see a deprecation warning for `start_server()`. The legacy command above still works; upgrading to `flower-superlink` is optional for this project.
+
+---
+
+## 📊 Experimental Results
+
+### 1) Baseline: Federated Averaging (FedAvg)
+**Description:** Standard federated learning baseline.  
+**Command:**
+```bash
+python ... --mode client --hospital_id <A|B|C>
+```
+**Final AUC:** 0.785  
+**Final Loss:** 0.214  
+**Notes:** The model successfully learned to predict readmissions, establishing a strong performance benchmark.
+
+### 2) Heterogeneity-Robust: FedProx
+**Description:** Designed to handle data heterogeneity between clients.  
+**Command:**
+```bash
+python ... --mode client --hospital_id <A|B|C> --algo fedprox
+```
+**Final AUC:** 0.807  
+**Final Loss:** 0.193  
+**Notes:** FedProx showed a slight improvement over the baseline, suggesting it effectively manages statistical differences between hospitals.
+
+### 3) Privacy-Preserving: FedAvg with Differential Privacy (DP)
+**Description:** Baseline model with client-side differential privacy enabled.  
+**Command:**
+```bash
+python ... --mode client --hospital_id <A|B|C> --use_dp
+```
+**Final AUC:** 0.788  
+**Final Loss:** 0.212  
+**Notes:** Adding DP resulted in a minor performance decrease, quantifying the “cost of privacy.” The model remains effective while providing formal privacy guarantees.
+
+---
